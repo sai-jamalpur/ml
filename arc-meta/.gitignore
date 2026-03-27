@@ -1,0 +1,37 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+*.pt
+*.log
+__pycache__/
+
+# Training/evaluation metadata logs
+logs/
+
+# Images and local data artifacts
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.bmp
+*.tif
+*.tiff
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# Local datasets
+data/
