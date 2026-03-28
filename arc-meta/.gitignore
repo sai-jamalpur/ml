@@ -33,5 +33,3 @@ logs/
 *.h5
 *.hdf5
 
-# Local datasets
-data/
