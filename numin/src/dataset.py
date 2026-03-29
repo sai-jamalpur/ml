@@ -1,196 +1,109 @@
 import pandas as pd
 import numpy as np
 import torch
-from torch.utils.data import Dataset
-from pathlib import Path
-from sklearn.preprocessing import StandardScaler
+from torch.utils.data import Dataset, DataLoader
+import os
 
-
-class OHLCVReturnsDataset(Dataset):
-    """
-    Dataset for OHLCV-to-Returns prediction task with meta-learning setup.
-    
-    Can be used in two ways:
-    1. Standard supervised learning: (input_sequence, target_returns)
-    2. Few-shot meta-learning: Multiple tasks with support/query sets
-    
-    Args:
-        data_dir: Path to directory containing parquet files
-        lookback: Number of days to look back (sequence length)
-        split: 'train', 'val', or 'test'
-        meta_learning: If True, format data for meta-learning tasks
-        n_way: Number of different assets/instruments (for meta-learning)
-        k_shot: Number of support samples per task (for meta-learning)
-        q_query: Number of query samples per task (for meta-learning)
-    """
-    
-    def __init__(
-        self,
-        data_dir,
-        lookback=10,
-        split='train',
-        test_size=0.1,
-        val_size=0.2,
-        meta_learning=False,
-        n_way=5,
-        k_shot=5,
-        q_query=1
-    ):
-        self.lookback = lookback
-        self.split = split
-        self.meta_learning = meta_learning
-        self.n_way = n_way
-        self.k_shot = k_shot
-        self.q_query = q_query
+class NiftyDatasetCreator:
+    def __init__(self, ohlcv_path, returns_path):
+        self.ohlcv_path = os.path.abspath(ohlcv_path)
+        self.returns_path = os.path.abspath(returns_path)
         
-        data_dir = Path(data_dir)
-        
-        # Read parquet files
-        ohlcv_df = pd.read_parquet(data_dir / "consolidated_daily_ohlcv.parquet")
-        returns_df = pd.read_parquet(data_dir / "consolidated_daily_returns.parquet")
-        
-        # Ensure they have the same length
-        min_len = min(len(ohlcv_df), len(returns_df))
-        ohlcv_df = ohlcv_df.iloc[:min_len]
-        returns_df = returns_df.iloc[:min_len]
-        
-        # Reset index
-        ohlcv_df = ohlcv_df.reset_index(drop=True)
-        returns_df = returns_df.reset_index(drop=True)
-        
-        self.ohlcv_df = ohlcv_df
-        self.returns_df = returns_df
-        self.n_assets = ohlcv_df.shape[1]
-        
-        # Split data
-        n_samples = len(ohlcv_df)
-        n_test = int(n_samples * test_size)
-        n_val = int((n_samples - n_test) * val_size)
-        
-        if split == 'test':
-            start_idx = n_samples - n_test
-            end_idx = n_samples
-        elif split == 'val':
-            start_idx = n_samples - n_test - n_val
-            end_idx = n_samples - n_test
-        else:  # train
-            start_idx = 0
-            end_idx = n_samples - n_test - n_val
-        
-        self.start_idx = start_idx
-        self.end_idx = end_idx
-        
-        # Normalize OHLCV data
-        self.scaler_ohlcv = StandardScaler()
-        ohlcv_scaled = self.scaler_ohlcv.fit_transform(ohlcv_df.values)
-        self.ohlcv_scaled = torch.from_numpy(ohlcv_scaled).float()
-        
-        # Normalize returns data
-        self.scaler_returns = StandardScaler()
-        returns_scaled = self.scaler_returns.fit_transform(returns_df.values)
-        self.returns_scaled = torch.from_numpy(returns_scaled).float()
-        
-        # Calculate valid indices (must have lookback history)
-        self.valid_indices = []
-        for i in range(start_idx + lookback, end_idx):
-            self.valid_indices.append(i)
-    
-    def __len__(self):
-        if self.meta_learning:
-            return len(self.valid_indices) // (self.k_shot + self.q_query)
-        return len(self.valid_indices)
-    
-    def __getitem__(self, idx):
-        """
-        Returns:
-            Standard mode:
-                x: (lookback, num_features) - OHLCV data for lookback days
-                y: (num_features,) - Returns for the next day
+        if not os.path.exists(self.ohlcv_path):
+            raise FileNotFoundError(f"OHLCV file not found: {self.ohlcv_path}")
+        if not os.path.exists(self.returns_path):
+            raise FileNotFoundError(f"Returns file not found: {self.returns_path}")
             
-            Meta-learning mode:
-                support_x: (k_shot, lookback, num_features)
-                support_y: (k_shot, num_features)
-                query_x: (q_query, lookback, num_features)
-                query_y: (q_query, num_features)
-        """
-        if self.meta_learning:
-            return self._get_meta_task(idx)
-        else:
-            return self._get_standard_sample(idx)
-    
-    def _get_standard_sample(self, idx):
-        i = self.valid_indices[idx]
+        self.load_data()
         
-        # Get lookback window of OHLCV data
-        x = self.ohlcv_scaled[i - self.lookback:i]
+    def load_data(self):
+        print("Parsing Returns Data...")
+        ret_df = pd.read_csv(self.returns_path, index_col=0)
+        ret_tickers = list(ret_df.columns)
+        self.num_time_steps = len(ret_df)
         
-        # Get target returns for day i
-        y = self.returns_scaled[i]
+        print("Mapping OHLCV Data Columns...")
+        with open(self.ohlcv_path, 'r') as f:
+            lines = f.readlines()
+            
+        features_line = lines[0].strip('\n').split(',')
+        tickers_line = lines[1].strip('\n').split(',')
         
-        return {
-            'x': x,
-            'y': y,
-            'index': i
-        }
-    
-    def _get_meta_task(self, idx):
-        """
-        Create a meta-learning task with support and query sets.
-        Both support and query use the same time window but different asset features.
-        """
-        base_idx = idx * (self.k_shot + self.q_query) + self.start_idx + self.lookback
+        # Build explicit column index map
+        ticker_to_cols = {}
+        for col_idx in range(1, min(len(features_line), len(tickers_line))):
+            feat = features_line[col_idx].strip()
+            tick = tickers_line[col_idx].strip()
+            
+            if tick and feat:
+                if tick not in ticker_to_cols:
+                    ticker_to_cols[tick] = {}
+                ticker_to_cols[tick][feat] = col_idx
+                
+        expected_features = ['open', 'high', 'low', 'close', 'volume']
         
-        support_x = []
-        support_y = []
-        query_x = []
-        query_y = []
+        # Structural Intersection: Keep only aligned tickers
+        self.tickers = []
+        for t in ret_tickers:
+            if t in ticker_to_cols and all(f in ticker_to_cols[t] for f in expected_features):
+                self.tickers.append(t)
+                
+        self.num_nodes = len(self.tickers)
+        self.num_features = len(expected_features)
         
-        # Create task with k_shot support samples and q_query query samples
-        for j in range(self.k_shot):
-            if base_idx + j < self.end_idx:
-                i = base_idx + j
-                x = self.ohlcv_scaled[i - self.lookback:i]
-                y = self.returns_scaled[i]
-                support_x.append(x)
-                support_y.append(y)
+        print(f"Successfully aligned {self.num_nodes} tickers present in both datasets.")
         
-        for j in range(self.q_query):
-            if base_idx + self.k_shot + j < self.end_idx:
-                i = base_idx + self.k_shot + j
-                x = self.ohlcv_scaled[i - self.lookback:i]
-                y = self.returns_scaled[i]
-                query_x.append(x)
-                query_y.append(y)
+        self.returns_tensor = ret_df[self.tickers].values 
         
-        # Pad if needed
-        while len(support_x) < self.k_shot:
-            support_x.append(torch.zeros_like(support_x[0]))
-            support_y.append(torch.zeros_like(support_y[0]))
+        data_lines = [line for line in lines[3:] if line.strip()] 
+        actual_time_steps = min(self.num_time_steps, len(data_lines))
+        self.returns_tensor = self.returns_tensor[:actual_time_steps]
+        self.num_time_steps = actual_time_steps
         
-        while len(query_x) < self.q_query:
-            query_x.append(torch.zeros_like(query_x[0]))
-            query_y.append(torch.zeros_like(query_y[0]))
+        self.ohlcv_tensor = np.zeros((self.num_time_steps, self.num_nodes, self.num_features))
         
-        return {
-            'support_x': torch.stack(support_x),
-            'support_y': torch.stack(support_y),
-            'query_x': torch.stack(query_x),
-            'query_y': torch.stack(query_y),
-        }
+        for t in range(self.num_time_steps):
+            parts = data_lines[t].strip('\n').split(',')
+            for node_idx, ticker in enumerate(self.tickers):
+                for feat_idx, feat in enumerate(expected_features):
+                    col_idx = ticker_to_cols[ticker][feat]
+                    try:
+                        val = float(parts[col_idx]) if col_idx < len(parts) and parts[col_idx] else 0.0
+                    except ValueError:
+                        val = 0.0
+                    self.ohlcv_tensor[t, node_idx, feat_idx] = val
+                    
+        print("Applying Temporal Z-Score Normalization...")
+        mean = np.mean(self.ohlcv_tensor, axis=0, keepdims=True)
+        std = np.std(self.ohlcv_tensor, axis=0, keepdims=True) + 1e-8
+        self.ohlcv_normalized = (self.ohlcv_tensor - mean) / std
+        
+    def get_correlation_graph(self, threshold=0.35):
+        print(f"Building Spatial Graph Adjacency Matrix (Threshold > {threshold})...")
+        corr_matrix = np.corrcoef(self.returns_tensor, rowvar=False)
+        source_nodes, target_nodes = [], []
+        
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                if i != j and abs(corr_matrix[i, j]) > threshold:
+                    source_nodes.append(i)
+                    target_nodes.append(j)
+                    
+        return torch.tensor([source_nodes, target_nodes], dtype=torch.long)
 
 
-if __name__ == "__main__":
-    # Test standard dataset
-    dataset_train = OHLCVReturnsDataset("data", lookback=10, split='train', meta_learning=False)
-    print(f"Train samples (standard): {len(dataset_train)}")
-    sample = dataset_train[0]
-    print(f"Sample x shape: {sample['x'].shape}, y shape: {sample['y'].shape}")
-    
-    # Test meta-learning dataset
-    meta_dataset_train = OHLCVReturnsDataset("data", lookback=10, split='train', meta_learning=True)
-    print(f"\nTrain tasks (meta-learning): {len(meta_dataset_train)}")
-    meta_sample = meta_dataset_train[0]
-    print(f"Support x shape: {meta_sample['support_x'].shape}")
-    print(f"Support y shape: {meta_sample['support_y'].shape}")
-    print(f"Query x shape: {meta_sample['query_x'].shape}")
-    print(f"Query y shape: {meta_sample['query_y'].shape}")
+class SpatioTemporalStockDataset(Dataset):
+    def __init__(self, features, returns, window_size=5):
+        self.features = features
+        self.returns = returns
+        self.window_size = window_size
+        self.num_samples = len(features) - window_size
+
+    def __len__(self):
+        return self.num_samples
+
+    def __getitem__(self, idx):
+        x_window = self.features[idx : idx + self.window_size] 
+        x_window = np.transpose(x_window, (1, 0, 2))
+        y_target = self.returns[idx + self.window_size]
+        return torch.tensor(x_window, dtype=torch.float32), torch.tensor(y_target, dtype=torch.float32)

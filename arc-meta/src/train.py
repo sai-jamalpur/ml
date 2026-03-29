@@ -16,16 +16,16 @@ parser.add_argument("--resume", type=str, default='')
 parser.add_argument("--batch_size", type=int, default=16)
 parser.add_argument("--lr", type=float, default=0.0002)
 parser.add_argument("--entropy_w", type=float, default=0.001)
-parser.add_argument("--epochs", type=int, default=2000)
+parser.add_argument("--epochs", type=int, default=5000)
 parser.add_argument("--t_steps", type=int, default=4)
 parser.add_argument("--max_segments", type=int, default=8)
-parser.add_argument("--tta_steps", type=int, default=10)
+parser.add_argument("--tta_steps", type=int, default=20)
 parser.add_argument("--tta_lr", type=float, default=0.001)
 args = parser.parse_args()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-os.makedirs("models_hrm", exist_ok=True)
+os.makedirs("models", exist_ok=True)
 
 train_dataset = ARCTaskDataset("data/training")
 eval_dataset = ARCTaskDataset("data/evaluation")
@@ -59,20 +59,67 @@ def safe_tta(model, sx, sy, qx, steps, lr):
     with torch.no_grad():
         return local_model(sx, sy, qx)
 
+# def evaluate(model):
+#     model.eval()
+#     correct, total = 0, 0
+#     for batch in eval_loader:
+#         if batch["query_y"] is None: continue
+#         sx, sy = batch["support_x"].to(device), batch["support_y"].to(device)
+#         qx, qy = batch["query_x"].to(device), batch["query_y"].to(device)
+        
+#         for b in range(sx.shape[0]):
+#             s_len, q_len = int(batch["support_mask"][b].sum()), int(batch["query_mask"][b].sum())
+#             pred = safe_tta(model, sx[b, :s_len], sy[b, :s_len], qx[b, :q_len], args.tta_steps, args.tta_lr)
+#             correct += (pred.argmax(dim=1) == qy[b, :q_len].squeeze(1)).float().sum().item()
+#             total += qy[b, :q_len].numel()
+#     return correct / total if total > 0 else 0
 def evaluate(model):
     model.eval()
-    correct, total = 0, 0
-    for batch in eval_loader:
+    tasks_correct = 0
+    total_tasks = 0
+    pixels_correct = 0
+    total_pixels = 0
+    
+    # tqdm provides a visual progress bar in your terminal
+    for batch in tqdm(eval_loader, desc="Evaluating Tasks"):
         if batch["query_y"] is None: continue
+        
         sx, sy = batch["support_x"].to(device), batch["support_y"].to(device)
         qx, qy = batch["query_x"].to(device), batch["query_y"].to(device)
         
         for b in range(sx.shape[0]):
-            s_len, q_len = int(batch["support_mask"][b].sum()), int(batch["query_mask"][b].sum())
-            pred = safe_tta(model, sx[b, :s_len], sy[b, :s_len], qx[b, :q_len], args.tta_steps, args.tta_lr)
-            correct += (pred.argmax(dim=1) == qy[b, :q_len].squeeze(1)).float().sum().item()
-            total += qy[b, :q_len].numel()
-    return correct / total if total > 0 else 0
+            s_len = int(batch["support_mask"][b].sum())
+            q_len = int(batch["query_mask"][b].sum())
+            
+            # 1. Run TTA (Test-Time Augmentation/Fine-tuning)
+            pred_logits = safe_tta(model, sx[b, :s_len], sy[b, :s_len], qx[b, :q_len], args.tta_steps, args.tta_lr)
+            
+            # 2. Convert to discrete color predictions
+            pred_grid = pred_logits.argmax(dim=1) # Shape: (Batch, H, W)
+            target_grid = qy[b, :q_len].squeeze(1).long() # Shape: (Batch, H, W)
+            
+            # --- PIXEL ACCURACY CALCULATION ---
+            # Count how many individual pixels match
+            correct_mask = (pred_grid == target_grid)
+            pixels_correct += correct_mask.sum().item()
+            total_pixels += target_grid.numel()
+            
+            # --- TASK ACCURACY CALCULATION ---
+            # A task is only correct if EVERY pixel in the grid is correct
+            is_task_perfect = torch.equal(pred_grid, target_grid)
+            if is_task_perfect:
+                tasks_correct += 1
+            total_tasks += 1
+            
+    # Calculate Final Metrics
+    pixel_acc = pixels_correct / total_pixels if total_pixels > 0 else 0
+    task_acc = tasks_correct / total_tasks if total_tasks > 0 else 0
+    
+    logging.info(f"--- Eval Results ---")
+    logging.info(f"Pixel Accuracy: {pixel_acc:.2%} ({pixels_correct}/{total_pixels})")
+    logging.info(f"Task Accuracy:  {task_acc:.2%} ({tasks_correct}/{total_tasks})")
+    
+    return task_acc # Usually we return Task Acc as the primary metric for ARC
 
 for epoch in range(start_epoch, args.epochs):
     model.train()
@@ -120,14 +167,17 @@ for epoch in range(start_epoch, args.epochs):
 
     avg_loss = total_loss / len(train_loader)
     logging.info(f"Train loss: {avg_loss:.4f}")
-    logging.info(f"Eval accuracy: {evaluate(model):.4f}")
+    if (epoch + 1) % 400 == 0:
+        eval_acc = evaluate(model)
+        logging.info(f"Eval accuracy: {eval_acc:.4f}")
+    # logging.info(f"Eval accuracy: {evaluate(model):.4f}")
 
     # 1. Continuous State Overwrite
     torch.save({
         "epoch": epoch + 1, 
         "model_state_dict": model.state_dict(), 
         "optimizer_state_dict": optimizer.state_dict()
-    }, "models/arc_latest.pt")
+    }, "models/hrm_latest.pt")
     
     # 2. Performance-Conditional Preservation
     if avg_loss < best_loss:
@@ -136,11 +186,11 @@ for epoch in range(start_epoch, args.epochs):
             "epoch": epoch + 1, 
             "model_state_dict": model.state_dict(), 
             "optimizer_state_dict": optimizer.state_dict()
-        }, "models/arc_best.pt")
+        }, "models/hrm_best.pt")
 
     # 3. Temporal-Conditional Preservation (20-Epoch Checkpoint)
-    if (epoch + 1) % 20 == 0:
-        checkpoint_path = f"models/arc_epoch_{epoch + 1}.pt"
+    if (epoch + 1) % 400 == 0:
+        checkpoint_path = f"models/hrm_{epoch + 1}.pt"
         torch.save({
             "epoch": epoch + 1, 
             "model_state_dict": model.state_dict(), 
