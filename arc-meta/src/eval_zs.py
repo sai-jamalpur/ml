@@ -113,6 +113,9 @@ if __name__ == "__main__":
     dataset = ARCTaskDataset(args.data_dir)
     loader = get_arc_loader(dataset, batch_size=args.batch_size)
     model = ARCFewShotHRM(dim=128, T_steps=args.t_steps, max_segments=args.max_segments).to(device)
+    total_params = sum(p.numel() for p in model.parameters())
+    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    logging.info(f"HRM params | total: {total_params:,} | trainable: {trainable_params:,}")
 
     # Load weights
     checkpoint = torch.load(args.model_path, map_location=device)

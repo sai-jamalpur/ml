@@ -33,6 +33,9 @@ train_loader = get_arc_loader(train_dataset, batch_size=args.batch_size)
 eval_loader = get_arc_loader(eval_dataset, batch_size=1)
 
 model = ARCFewShotHRM(dim=128, T_steps=args.t_steps, max_segments=args.max_segments).to(device)
+total_params = sum(p.numel() for p in model.parameters())
+trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+logging.info(f"HRM params | total: {total_params:,} | trainable: {trainable_params:,}")
 optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 scaler = torch.amp.GradScaler("cuda")
 

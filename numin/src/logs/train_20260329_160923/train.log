@@ -1,0 +1,9 @@
+2026-03-29 16:09:23,562 | INFO | --- Executing ST-GAT Training on: cuda ---
+2026-03-29 16:09:23,563 | INFO | Loading data from src/data...
+2026-03-29 16:09:25,235 | INFO | Model params | total: 161,793 | trainable: 161,793
+2026-03-29 16:09:25,236 | INFO | Starting Training Loop...
+2026-03-29 16:09:33,038 | INFO | Epoch [01/1] | Train Loss: 0.682044 | Val Loss: 1.004678 | Train IC: 0.0588 | Val IC: 0.1013 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 16:09:36,148 | INFO | Training Complete. Best Validation IC: 0.1013
+2026-03-29 16:09:36,149 | INFO | Checkpoints saved to: /home/saij/ml/numin/src/models/
+2026-03-29 16:09:36,149 | INFO | Training history CSV: /home/saij/ml/numin/src/logs/train_20260329_160923/training_history.csv
+2026-03-29 16:09:36,149 | INFO | Training curves plot: /home/saij/ml/numin/src/logs/train_20260329_160923/training_curves.png

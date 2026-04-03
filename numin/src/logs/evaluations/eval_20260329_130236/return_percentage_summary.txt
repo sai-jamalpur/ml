@@ -1,0 +1,5 @@
+Base capital assumption: 100.0
+Final model cumulative PnL: 3641.2501
+Final ideal cumulative PnL: 4806.1141
+Final model return (%): 3641.2501
+Final ideal return (%): 4806.1141

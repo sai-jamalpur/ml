@@ -1,0 +1,29 @@
+{
+  "model": {
+    "total_profit": 585.3453826394671,
+    "sharpe_ratio": 6.014591390775994
+  },
+  "ideal": {
+    "total_profit": 637.3552756463073,
+    "sharpe_ratio": 6.399907769774466
+  },
+  "delta": {
+    "total_profit": -229.10469355369904,
+    "sharpe_ratio": -3.855450638050062
+  },
+  "prediction_daily_mean_loss": {
+    "mse": 0.4347936809062958,
+    "mae": 0.3773818910121918,
+    "rmse": 0.659388869261755
+  },
+  "num_eval_days": 2029,
+  "weights_file": "/home/saij/ml/numin/src/models/best_st_gat_model.pth",
+  "selected_day": {
+    "day_index": 100,
+    "correlation": 0.0,
+    "mae": 0.031788989901542664,
+    "plot": "/home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/pred_vs_gt_stockwise_day_100.png",
+    "csv": "/home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/pred_vs_gt_stockwise_day_100.csv"
+  },
+  "top_stock_similarity_csv": "/home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/top_stocks_similarity_metrics.csv"
+}

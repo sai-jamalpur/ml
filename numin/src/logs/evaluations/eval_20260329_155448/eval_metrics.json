@@ -1,0 +1,22 @@
+{
+  "model": {
+    "total_profit": 585.3453825299243,
+    "sharpe_ratio": 6.014591390075678
+  },
+  "ideal": {
+    "total_profit": 637.3552756463073,
+    "sharpe_ratio": 6.399907769774466
+  },
+  "delta": {
+    "total_profit": -229.10469257408852,
+    "sharpe_ratio": -3.855450580988777
+  },
+  "prediction_daily_mean_loss": {
+    "mse": 0.4347936809062958,
+    "mae": 0.3773818910121918,
+    "rmse": 0.659388869261755
+  },
+  "num_eval_days": 2029,
+  "weights_file": "/home/saij/ml/numin/src/models/best_st_gat_model.pth",
+  "top_stock_similarity_csv": "/home/saij/ml/numin/src/logs/evaluations/eval_20260329_155448/top_stocks_similarity_metrics.csv"
+}

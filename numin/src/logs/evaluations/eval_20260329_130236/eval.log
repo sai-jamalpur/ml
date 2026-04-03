@@ -1,0 +1,16 @@
+2026-03-29 13:02:36,506 | INFO | --- Executing Out-of-Sample Backtest on: cuda ---
+2026-03-29 13:02:36,506 | INFO | Loading Out-of-Sample OHLCV and Returns from: data/eval
+2026-03-29 13:02:39,431 | INFO | Calculating Proportional Capital Allocations...
+2026-03-29 13:02:39,464 | INFO | Routing 2029 evaluation days through Numin2API...
+2026-03-29 13:02:40,930 | INFO | =================================================================
+2026-03-29 13:02:40,930 | INFO | METRIC               | ST-GAT MODEL | IDEAL (MAX)  | DELTA (ERROR)
+2026-03-29 13:02:40,930 | INFO | -----------------------------------------------------------------
+2026-03-29 13:02:40,930 | INFO | Total PnL            |    585.3454 |    637.3553 |   -229.1047
+2026-03-29 13:02:40,931 | INFO | Sharpe Ratio         |      6.0146 |      6.3999 |     -3.8555
+2026-03-29 13:02:40,931 | INFO | =================================================================
+2026-03-29 13:02:42,386 | INFO | [Export] Timeline CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_130236/eval_backtest_timeline.csv
+2026-03-29 13:02:42,387 | INFO | [Export] Backtest plot: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_130236/eval_backtest_plot.png
+2026-03-29 13:02:42,387 | INFO | [Export] Pred vs Actual CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_130236/predictions_vs_actual_day_returns.csv
+2026-03-29 13:02:42,387 | INFO | [Export] Pred vs Actual plot: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_130236/predictions_vs_actual_day_returns.png
+2026-03-29 13:02:42,387 | INFO | [Metrics] Daily Mean Return Loss | MSE: 0.43479368 | MAE: 0.37738189 | RMSE: 0.65938887
+2026-03-29 13:02:42,388 | INFO | [Export] Metrics JSON: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_130236/eval_metrics.json

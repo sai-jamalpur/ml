@@ -1,0 +1,21 @@
+{
+  "model": {
+    "total_profit": 585.3453826710526,
+    "sharpe_ratio": 6.014591394274826
+  },
+  "ideal": {
+    "total_profit": 637.3552756463073,
+    "sharpe_ratio": 6.399907769774466
+  },
+  "delta": {
+    "total_profit": -229.104695764847,
+    "sharpe_ratio": -3.8554506600066896
+  },
+  "prediction_daily_mean_loss": {
+    "mse": 0.4347936809062958,
+    "mae": 0.3773818910121918,
+    "rmse": 0.659388869261755
+  },
+  "num_eval_days": 2029,
+  "weights_file": "/home/saij/ml/numin/src/models/best_st_gat_model.pth"
+}

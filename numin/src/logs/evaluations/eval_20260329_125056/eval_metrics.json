@@ -1,0 +1,16 @@
+{
+  "model": {
+    "total_profit": 78.50495730549,
+    "sharpe_ratio": 0.6760932064301666
+  },
+  "ideal": {
+    "total_profit": 637.3552756463073,
+    "sharpe_ratio": 6.399907769774466
+  },
+  "delta": {
+    "total_profit": 143.8130677200905,
+    "sharpe_ratio": 1.63186518317691
+  },
+  "num_eval_days": 2029,
+  "weights_file": "/home/saij/ml/numin/src/models/best_st_gat_model.pth"
+}

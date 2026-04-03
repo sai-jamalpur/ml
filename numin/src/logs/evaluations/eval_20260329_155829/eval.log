@@ -1,0 +1,33 @@
+2026-03-29 15:58:29,565 | INFO | --- Executing Out-of-Sample Backtest on: cuda ---
+2026-03-29 15:58:29,566 | INFO | Loading Out-of-Sample OHLCV and Returns from: data/eval
+2026-03-29 15:58:35,121 | INFO | Calculating Proportional Capital Allocations...
+2026-03-29 15:58:35,159 | INFO | Routing 2029 evaluation days through Numin2API...
+2026-03-29 15:58:36,889 | INFO | =================================================================
+2026-03-29 15:58:36,889 | INFO | METRIC               | ST-GAT MODEL | IDEAL (MAX)  | DELTA (ERROR)
+2026-03-29 15:58:36,889 | INFO | -----------------------------------------------------------------
+2026-03-29 15:58:36,889 | INFO | Total PnL            |    585.3454 |    637.3553 |   -229.1047
+2026-03-29 15:58:36,889 | INFO | Sharpe Ratio         |      6.0146 |      6.3999 |     -3.8555
+2026-03-29 15:58:36,889 | INFO | =================================================================
+2026-03-29 15:58:39,341 | INFO | [Export] Timeline CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/eval_backtest_timeline.csv
+2026-03-29 15:58:39,341 | INFO | [Export] Backtest plot: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/eval_backtest_plot.png
+2026-03-29 15:58:39,342 | INFO | [Export] Pred vs Actual CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/predictions_vs_actual_day_returns.csv
+2026-03-29 15:58:39,342 | INFO | [Export] Pred vs Actual plot: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/predictions_vs_actual_day_returns.png
+2026-03-29 15:58:39,342 | INFO | [Metrics] Daily Mean Return Loss | MSE: 0.43479368 | MAE: 0.37738189 | RMSE: 0.65938887
+2026-03-29 15:58:39,342 | INFO | [Export] Selected day stock-wise CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/pred_vs_gt_stockwise_day_100.csv
+2026-03-29 15:58:39,342 | INFO | [Export] Selected day stock-wise plot: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/pred_vs_gt_stockwise_day_100.png
+2026-03-29 15:58:39,343 | INFO | [Metrics] Selected day 100 | Corr: 0.0000 | MAE: 0.031789
+2026-03-29 15:58:39,343 | INFO | [Export] Top stock similarity CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/top_stocks_similarity_metrics.csv
+2026-03-29 15:58:39,343 | INFO | [Metrics] Top-12 stock similarity (ranked by ground-truth cumulative return):
+2026-03-29 15:58:39,344 | INFO |   BEL | Corr: 0.7899 | MAE: 0.9765 | RMSE: 1.4960 | DirAcc: 0.7422
+2026-03-29 15:58:39,344 | INFO |   TRENT | Corr: 0.7753 | MAE: 0.9356 | RMSE: 1.4583 | DirAcc: 0.7782
+2026-03-29 15:58:39,344 | INFO |   MAXHEALTH | Corr: -0.0383 | MAE: 1.1950 | RMSE: 1.9468 | DirAcc: 0.3346
+2026-03-29 15:58:39,344 | INFO |   APOLLOHOSP | Corr: 0.8358 | MAE: 0.6636 | RMSE: 1.0898 | DirAcc: 0.7679
+2026-03-29 15:58:39,345 | INFO |   BHARTIARTL | Corr: 0.7797 | MAE: 0.7967 | RMSE: 1.1390 | DirAcc: 0.7156
+2026-03-29 15:58:39,345 | INFO |   TITAN | Corr: 0.7313 | MAE: 0.7993 | RMSE: 1.1782 | DirAcc: 0.6964
+2026-03-29 15:58:39,345 | INFO |   ICICIBANK | Corr: 0.7137 | MAE: 0.8284 | RMSE: 1.2916 | DirAcc: 0.7087
+2026-03-29 15:58:39,345 | INFO |   HINDALCO | Corr: 0.7683 | MAE: 1.1055 | RMSE: 1.6098 | DirAcc: 0.7437
+2026-03-29 15:58:39,345 | INFO |   TATACONSUM | Corr: 0.7198 | MAE: 0.8414 | RMSE: 1.2248 | DirAcc: 0.7146
+2026-03-29 15:58:39,345 | INFO |   SBIN | Corr: 0.7623 | MAE: 0.8430 | RMSE: 1.2969 | DirAcc: 0.7368
+2026-03-29 15:58:39,345 | INFO |   ADANIPORTS | Corr: 0.8062 | MAE: 0.7725 | RMSE: 1.4680 | DirAcc: 0.7974
+2026-03-29 15:58:39,346 | INFO |   SHRIRAMFIN | Corr: 0.8195 | MAE: 0.9177 | RMSE: 1.6695 | DirAcc: 0.7965
+2026-03-29 15:58:39,346 | INFO | [Export] Metrics JSON: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_155829/eval_metrics.json

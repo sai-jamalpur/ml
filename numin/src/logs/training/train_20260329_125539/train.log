@@ -1,0 +1,57 @@
+2026-03-29 12:55:39,727 | INFO | --- Executing ST-GAT Training on: cuda ---
+2026-03-29 12:55:39,727 | INFO | Loading data from data...
+2026-03-29 12:55:41,671 | INFO | Starting Training Loop...
+2026-03-29 12:55:49,838 | INFO | Epoch [01/50] | Train Loss: 0.685520 | Val Loss: 1.027119 | Train IC: 0.0537 | Val IC: 0.0861 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:55:55,445 | INFO | Epoch [02/50] | Train Loss: 0.648581 | Val Loss: 1.019226 | Train IC: 0.0988 | Val IC: 0.0907 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:56:01,462 | INFO | Epoch [03/50] | Train Loss: 0.613455 | Val Loss: 0.899948 | Train IC: 0.1400 | Val IC: 0.2213 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:56:07,481 | INFO | Epoch [04/50] | Train Loss: 0.428986 | Val Loss: 1.006387 | Train IC: 0.3102 | Val IC: 0.3678 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:56:14,175 | INFO | Epoch [05/50] | Train Loss: 0.266850 | Val Loss: 0.992287 | Train IC: 0.4338 | Val IC: 0.4448 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:56:20,826 | INFO | Epoch [06/50] | Train Loss: 0.198645 | Val Loss: 0.612454 | Train IC: 0.4872 | Val IC: 0.5109 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:56:26,737 | INFO | Epoch [07/50] | Train Loss: 0.129942 | Val Loss: 0.957475 | Train IC: 0.5313 | Val IC: 0.4670 | LR: 0.001000
+2026-03-29 12:56:32,402 | INFO | Epoch [08/50] | Train Loss: 0.112647 | Val Loss: 0.386391 | Train IC: 0.5405 | Val IC: 0.5721 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:56:38,346 | INFO | Epoch [09/50] | Train Loss: 0.089776 | Val Loss: 0.386851 | Train IC: 0.5535 | Val IC: 0.5657 | LR: 0.001000
+2026-03-29 12:56:44,090 | INFO | Epoch [10/50] | Train Loss: 0.090641 | Val Loss: 0.101651 | Train IC: 0.5566 | Val IC: 0.6804 | LR: 0.001000 -> [Milestone Saved] -> [New Best Saved]
+2026-03-29 12:56:50,872 | INFO | Epoch [11/50] | Train Loss: 0.059226 | Val Loss: 0.261434 | Train IC: 0.5797 | Val IC: 0.5956 | LR: 0.001000
+2026-03-29 12:56:56,226 | INFO | Epoch [12/50] | Train Loss: 0.077359 | Val Loss: 0.495867 | Train IC: 0.5668 | Val IC: 0.5757 | LR: 0.001000
+2026-03-29 12:57:02,234 | INFO | Epoch [13/50] | Train Loss: 0.035617 | Val Loss: 0.554653 | Train IC: 0.5913 | Val IC: 0.6488 | LR: 0.001000
+2026-03-29 12:57:08,855 | INFO | Epoch [14/50] | Train Loss: 0.037459 | Val Loss: 0.071650 | Train IC: 0.5904 | Val IC: 0.7001 | LR: 0.001000 -> [New Best Saved]
+2026-03-29 12:57:15,305 | INFO | Epoch [15/50] | Train Loss: 0.016950 | Val Loss: 0.089044 | Train IC: 0.6032 | Val IC: 0.6727 | LR: 0.001000
+2026-03-29 12:57:21,799 | INFO | Epoch [16/50] | Train Loss: 0.023641 | Val Loss: 0.159367 | Train IC: 0.5988 | Val IC: 0.6272 | LR: 0.001000
+2026-03-29 12:57:28,021 | INFO | Epoch [17/50] | Train Loss: 0.010244 | Val Loss: 0.181570 | Train IC: 0.6081 | Val IC: 0.6970 | LR: 0.001000
+2026-03-29 12:57:33,774 | INFO | Epoch [18/50] | Train Loss: 0.024205 | Val Loss: 0.348214 | Train IC: 0.5973 | Val IC: 0.5837 | LR: 0.001000
+2026-03-29 12:57:39,747 | INFO | Epoch [19/50] | Train Loss: -0.004808 | Val Loss: 0.246360 | Train IC: 0.6212 | Val IC: 0.5902 | LR: 0.001000
+2026-03-29 12:57:45,834 | INFO | Epoch [20/50] | Train Loss: 0.005330 | Val Loss: 0.003321 | Train IC: 0.6130 | Val IC: 0.7178 | LR: 0.001000 -> [Milestone Saved] -> [New Best Saved]
+2026-03-29 12:57:51,549 | INFO | Epoch [21/50] | Train Loss: -0.000757 | Val Loss: 0.140130 | Train IC: 0.6161 | Val IC: 0.6701 | LR: 0.001000
+2026-03-29 12:57:57,871 | INFO | Epoch [22/50] | Train Loss: 0.003777 | Val Loss: 0.085118 | Train IC: 0.6156 | Val IC: 0.6720 | LR: 0.001000
+2026-03-29 12:58:03,848 | INFO | Epoch [23/50] | Train Loss: -0.024262 | Val Loss: 0.282404 | Train IC: 0.6310 | Val IC: 0.5639 | LR: 0.001000
+2026-03-29 12:58:09,540 | INFO | Epoch [24/50] | Train Loss: -0.021756 | Val Loss: 0.718833 | Train IC: 0.6296 | Val IC: 0.5759 | LR: 0.001000
+2026-03-29 12:58:15,313 | INFO | Epoch [25/50] | Train Loss: -0.020921 | Val Loss: 0.564632 | Train IC: 0.6331 | Val IC: 0.5620 | LR: 0.001000
+2026-03-29 12:58:20,681 | INFO | Epoch [26/50] | Train Loss: -0.014419 | Val Loss: 0.569108 | Train IC: 0.6237 | Val IC: 0.5008 | LR: 0.000500
+2026-03-29 12:58:26,452 | INFO | Epoch [27/50] | Train Loss: -0.066809 | Val Loss: 0.021994 | Train IC: 0.6603 | Val IC: 0.6981 | LR: 0.000500
+2026-03-29 12:58:32,565 | INFO | Epoch [28/50] | Train Loss: -0.077257 | Val Loss: 0.641368 | Train IC: 0.6653 | Val IC: 0.5108 | LR: 0.000500
+2026-03-29 12:58:38,698 | INFO | Epoch [29/50] | Train Loss: -0.075875 | Val Loss: 0.480858 | Train IC: 0.6676 | Val IC: 0.5231 | LR: 0.000500
+2026-03-29 12:58:45,391 | INFO | Epoch [30/50] | Train Loss: -0.081221 | Val Loss: 0.366456 | Train IC: 0.6688 | Val IC: 0.6483 | LR: 0.000500 -> [Milestone Saved]
+2026-03-29 12:58:51,660 | INFO | Epoch [31/50] | Train Loss: -0.080955 | Val Loss: 0.421534 | Train IC: 0.6673 | Val IC: 0.5205 | LR: 0.000500
+2026-03-29 12:58:57,633 | INFO | Epoch [32/50] | Train Loss: -0.088219 | Val Loss: 0.568203 | Train IC: 0.6776 | Val IC: 0.4859 | LR: 0.000250
+2026-03-29 12:59:03,958 | INFO | Epoch [33/50] | Train Loss: -0.111565 | Val Loss: 0.198855 | Train IC: 0.6946 | Val IC: 0.6062 | LR: 0.000250
+2026-03-29 12:59:09,678 | INFO | Epoch [34/50] | Train Loss: -0.120346 | Val Loss: 0.240860 | Train IC: 0.7027 | Val IC: 0.6067 | LR: 0.000250
+2026-03-29 12:59:15,989 | INFO | Epoch [35/50] | Train Loss: -0.121263 | Val Loss: 0.271467 | Train IC: 0.7002 | Val IC: 0.6535 | LR: 0.000250
+2026-03-29 12:59:22,741 | INFO | Epoch [36/50] | Train Loss: -0.119009 | Val Loss: 0.682240 | Train IC: 0.6976 | Val IC: 0.4851 | LR: 0.000250
+2026-03-29 12:59:28,783 | INFO | Epoch [37/50] | Train Loss: -0.124152 | Val Loss: 0.359685 | Train IC: 0.7023 | Val IC: 0.6322 | LR: 0.000250
+2026-03-29 12:59:35,166 | INFO | Epoch [38/50] | Train Loss: -0.122558 | Val Loss: 0.324748 | Train IC: 0.7024 | Val IC: 0.5482 | LR: 0.000125
+2026-03-29 12:59:41,136 | INFO | Epoch [39/50] | Train Loss: -0.136016 | Val Loss: 0.875220 | Train IC: 0.7116 | Val IC: 0.4640 | LR: 0.000125
+2026-03-29 12:59:46,817 | INFO | Epoch [40/50] | Train Loss: -0.137949 | Val Loss: 0.770756 | Train IC: 0.7139 | Val IC: 0.4772 | LR: 0.000125 -> [Milestone Saved]
+2026-03-29 12:59:52,970 | INFO | Epoch [41/50] | Train Loss: -0.139510 | Val Loss: 0.600037 | Train IC: 0.7133 | Val IC: 0.4869 | LR: 0.000125
+2026-03-29 12:59:58,833 | INFO | Epoch [42/50] | Train Loss: -0.141555 | Val Loss: 0.468364 | Train IC: 0.7162 | Val IC: 0.5354 | LR: 0.000125
+2026-03-29 13:00:05,644 | INFO | Epoch [43/50] | Train Loss: -0.140579 | Val Loss: 0.353690 | Train IC: 0.7120 | Val IC: 0.6114 | LR: 0.000125
+2026-03-29 13:00:11,253 | INFO | Epoch [44/50] | Train Loss: -0.147095 | Val Loss: 0.175748 | Train IC: 0.7197 | Val IC: 0.6839 | LR: 0.000063
+2026-03-29 13:00:17,165 | INFO | Epoch [45/50] | Train Loss: -0.148676 | Val Loss: 0.116116 | Train IC: 0.7188 | Val IC: 0.7088 | LR: 0.000063
+2026-03-29 13:00:23,522 | INFO | Epoch [46/50] | Train Loss: -0.149310 | Val Loss: 0.160008 | Train IC: 0.7206 | Val IC: 0.6820 | LR: 0.000063
+2026-03-29 13:00:30,436 | INFO | Epoch [47/50] | Train Loss: -0.151611 | Val Loss: 0.325703 | Train IC: 0.7196 | Val IC: 0.5548 | LR: 0.000063
+2026-03-29 13:00:36,296 | INFO | Epoch [48/50] | Train Loss: -0.150370 | Val Loss: 0.814756 | Train IC: 0.7200 | Val IC: 0.4656 | LR: 0.000063
+2026-03-29 13:00:42,310 | INFO | Epoch [49/50] | Train Loss: -0.149958 | Val Loss: 0.674220 | Train IC: 0.7204 | Val IC: 0.4896 | LR: 0.000063
+2026-03-29 13:00:48,302 | INFO | Epoch [50/50] | Train Loss: -0.154160 | Val Loss: 0.409489 | Train IC: 0.7243 | Val IC: 0.5427 | LR: 0.000031 -> [Milestone Saved]
+2026-03-29 13:00:49,140 | INFO | Training Complete. Best Validation IC: 0.7178
+2026-03-29 13:00:49,140 | INFO | Checkpoints saved to: /home/saij/ml/numin/src/models/
+2026-03-29 13:00:49,140 | INFO | Training history CSV: /home/saij/ml/numin/src/logs/training/train_20260329_125539/training_history.csv
+2026-03-29 13:00:49,140 | INFO | Training curves plot: /home/saij/ml/numin/src/logs/training/train_20260329_125539/training_curves.png

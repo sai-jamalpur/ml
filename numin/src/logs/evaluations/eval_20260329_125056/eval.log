@@ -1,0 +1,13 @@
+2026-03-29 12:50:56,826 | INFO | --- Executing Out-of-Sample Backtest on: cuda ---
+2026-03-29 12:50:56,827 | INFO | Loading Out-of-Sample OHLCV and Returns from: data/eval
+2026-03-29 12:50:59,421 | INFO | Calculating Proportional Capital Allocations...
+2026-03-29 12:50:59,460 | INFO | Routing 2029 evaluation days through Numin2API...
+2026-03-29 12:51:01,176 | INFO | =================================================================
+2026-03-29 12:51:01,177 | INFO | METRIC               | ST-GAT MODEL | IDEAL (MAX)  | DELTA (ERROR)
+2026-03-29 12:51:01,177 | INFO | -----------------------------------------------------------------
+2026-03-29 12:51:01,177 | INFO | Total PnL            |     78.5050 |    637.3553 |    143.8131
+2026-03-29 12:51:01,177 | INFO | Sharpe Ratio         |      0.6761 |      6.3999 |      1.6319
+2026-03-29 12:51:01,177 | INFO | =================================================================
+2026-03-29 12:51:02,025 | INFO | [Export] Timeline CSV: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_125056/eval_backtest_timeline.csv
+2026-03-29 12:51:02,025 | INFO | [Export] Backtest plot: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_125056/eval_backtest_plot.png
+2026-03-29 12:51:02,025 | INFO | [Export] Metrics JSON: /home/saij/ml/numin/src/logs/evaluations/eval_20260329_125056/eval_metrics.json

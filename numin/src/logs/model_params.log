@@ -1,0 +1,5 @@
+2026-03-29T16:05:41.624936 | TOTAL=161793 | TRAINABLE=161793 | NON_TRAINABLE=0
+It is less than 1 million.
+
+- ARC-Meta HRM: 316,170 parameters = about 0.316M
+- Numin model: 161,793 parameters = about 0.162M
