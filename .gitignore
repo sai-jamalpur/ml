@@ -6,6 +6,8 @@
 
 # Un-ignore .py files
 !*.py
+!*.ipynb
+!*.pdf
 
 # Un-ignore the .gitignore file itself
 !.gitignore
