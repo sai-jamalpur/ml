@@ -155,7 +155,7 @@ def main():
     print("Loading model...")
     num_features = len(train_dataset.feature_cols)
     model = StockPricePredictor(num_features).to(device)
-    model.load_state_dict(torch.load('model.pth', map_location=device))
+    model.load_state_dict(torch.load('model_new.pth', map_location=device))
     model.eval()
 
     all_preds = []
